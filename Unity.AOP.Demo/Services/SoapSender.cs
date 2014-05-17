@@ -7,6 +7,11 @@ namespace Unity.AOP.Demo.Services
 {
     public class SoapSender : ISoapSender
     {
+        public SoapSender()
+        {
+
+        }
+
         [DetectHanging(MaxExpectedExecutionTime = 100)]
         [HandleException]
         [LoggingInvocation]

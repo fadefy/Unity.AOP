@@ -18,6 +18,7 @@ namespace Unity.AOP
                 container.RegisterType<IInovcationStringBuilder, InvocationStringBuilder>(new ContainerControlledLifetimeManager());
                 container.RegisterType<IIndentSizeProvider, ThreadIndentSizeProvider>(new ContainerControlledLifetimeManager());
                 container.RegisterType<IHangingMonitor, ConcurrentHangingMonitor>(new ContainerControlledLifetimeManager());
+                container.RegisterType<ICacheKeyProvider, ValueCacheKeyProvider>(new ContainerControlledLifetimeManager());
                 container.RegisterType<DetectHangingCallHandler>(new PerResolveLifetimeManager());
                 container.RegisterType<LoggingCallHandler>(new PerResolveLifetimeManager());
                 container.RegisterType<ExceptionCallHandler>(new PerResolveLifetimeManager());

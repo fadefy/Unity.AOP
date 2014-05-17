@@ -3,6 +3,7 @@ using System;
 using System.Windows;
 using Unity.AOP.Demo.Services;
 using Unity.AOP.Logging;
+using Unity.AOP.Demo.Samples;
 
 namespace Unity.AOP.Demo
 {
@@ -22,6 +23,11 @@ namespace Unity.AOP.Demo
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Sender.Send(null);
+        }
+
+        private void OnAsyncLoadingClick(object sender, RoutedEventArgs e)
+        {
+            new AsyncOperationsWindow().ShowDialog();
         }
     }
 }

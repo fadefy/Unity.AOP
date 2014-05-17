@@ -1,6 +1,6 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System;
+using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
-using System;
 
 namespace Unity.AOP
 {
@@ -15,9 +15,16 @@ namespace Unity.AOP
 
         public override ICallHandler CreateHandler(IUnityContainer container)
         {
-            return (ICallHandler)container.Resolve(HandlerType,
+            return (ICallHandler)container.Resolve(HandlerType, GetHandlerConstructionOverride());
+        }
+
+        protected virtual ResolverOverride[] GetHandlerConstructionOverride()
+        {
+            return new []
+            {
                 new PropertyOverride("Order", Order),
-                new PropertyOverride("Attribute", this));
+                new PropertyOverride("Attribute", this)
+            };
         }
     }
 }

@@ -1,0 +1,12 @@
+﻿<Window x:Class="Unity.AOP.Demo.Samples.AsyncOperationsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AsyncOperationsWindow" Height="300" Width="300">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top">
+            <Button Content="Load" Click="OnLoadClick" />
+            <Button Content="Clear" Click="OnClearClick" />
+        </StackPanel>
+        <TabControl x:Name="dataTabs" />
+    </DockPanel>
+</Window>

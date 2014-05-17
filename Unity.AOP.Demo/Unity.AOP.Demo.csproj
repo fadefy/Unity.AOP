@@ -95,6 +95,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Samples\AsyncOperationsWindow.xaml.cs">
+      <DependentUpon>AsyncOperationsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\ISoapSender.cs" />
     <Compile Include="Services\SoapRequest.cs" />
     <Compile Include="Services\SoapSender.cs" />
@@ -110,6 +113,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Samples\AsyncOperationsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

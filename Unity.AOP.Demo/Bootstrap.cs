@@ -12,6 +12,7 @@ namespace Unity.AOP.Demo
     {
         protected override DependencyObject CreateShell()
         {
+            new UnityAopModule().Initialize();
             return Container.Resolve<MainWindow>();
         }
 
@@ -23,7 +24,16 @@ namespace Unity.AOP.Demo
 
         protected override IModuleCatalog CreateModuleCatalog()
         {
-            return new DirectoryModuleCatalog() { ModulePath = Environment.CurrentDirectory };
+            var catalog = new ModuleCatalog();
+            catalog.AddModule(typeof(UnityAopModule));
+            catalog.Initialize();
+            
+            return catalog;
+        }
+
+        protected override void InitializeModules()
+        {
+            base.InitializeModules();
         }
 
         protected override void InitializeShell()

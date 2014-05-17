@@ -11,5 +11,7 @@ namespace Unity.AOP.ExcptionHandling
         }
 
         public object FallbackValue { get; set; }
+
+        public string FallbackValueKey { get; set; }
     }
 }

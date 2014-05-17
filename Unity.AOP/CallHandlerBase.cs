@@ -17,6 +17,9 @@ namespace Unity.AOP
         [Dependency]
         public ILoggerFacade Logger { get; set; }
 
+        [Dependency]
+        public IUnityContainer Container { get; set; }
+
         public abstract IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext);
 
         protected virtual void Debug(string format, params object[] arguments)
