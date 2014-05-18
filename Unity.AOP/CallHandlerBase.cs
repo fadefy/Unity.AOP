@@ -8,8 +8,7 @@ namespace Unity.AOP
 {
     public abstract class CallHandlerBase : ICallHandler
     {
-        [Dependency]
-        public virtual int Order { get; set; }
+        public int Order { get; set; }
 
         [Dependency]
         public IEventAggregator Aggregator { get; set; }

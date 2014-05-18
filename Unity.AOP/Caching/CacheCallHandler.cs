@@ -1,21 +1,23 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Practices.Unity.InterceptionExtension;
+using Unity.AOP.Utilities;
 
 namespace Unity.AOP.Caching
 {
-    public class CacheCallHandler : AttributeDrivenCallHandlerBase<CacheResultAttribute>
+    public class CacheCallHandler : CallHandlerBase
     {
-        protected ICacheKeyProvider _keyProvider;
-        protected IDictionary<object, IMethodReturn> _keyValueMap = new Dictionary<object, IMethodReturn>();
+        protected readonly IArgumentsCacheKeyGenerator _keyGenerator;
+        protected readonly IDictionary<object, IMethodReturn> _keyValueMap = new Dictionary<object, IMethodReturn>();
 
-        public CacheCallHandler(ICacheKeyProvider keyProvider)
+        public CacheCallHandler(IArgumentsCacheKeyGenerator keyGenerator)
         {
-            _keyProvider = keyProvider;
+            _keyGenerator = keyGenerator;
         }
 
         public override IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
         {
-            var key = _keyProvider.GenerateKey(input.MethodBase, GetInputArguments(input));
+            var inputArguments = input.Arguments.PeakArguments(info => !info.IsOut);
+            var key = _keyGenerator.GenerateKey(input.MethodBase, inputArguments);
             IMethodReturn result = null;
             if (!_keyValueMap.TryGetValue(key, out result))
             {
@@ -24,21 +26,6 @@ namespace Unity.AOP.Caching
             }
 
             return result;
-        }
-
-        protected virtual object[] GetInputArguments(IMethodInvocation input)
-        {
-            var inputArguments = new List<object>();
-            for (int i = 0; i < input.Arguments.Count; i++)
-            {
-                var info = input.Arguments.GetParameterInfo(i);
-                if (!info.IsOut)
-                {
-                    inputArguments.Add(input.Arguments[i]);
-                }
-            }
-
-            return inputArguments.ToArray();
         }
     }
 }

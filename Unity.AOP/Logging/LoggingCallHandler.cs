@@ -5,13 +5,13 @@ using Unity.AOP.Utilities;
 
 namespace Unity.AOP.Logging
 {
-    public class LoggingCallHandler : AttributeDrivenCallHandlerBase<LoggingInvocationAttribute>
+    public class LoggingCallHandler : CallHandlerBase
     {
         private string _indent = null;
 
         protected string IndentString
         {
-            get { return _indent ?? (_indent = new string(' ', Attribute.IndentSize)); }
+            get { return _indent ?? (_indent = new string(' ', IndentSize)); }
         }
 
         [Dependency]
@@ -20,13 +20,17 @@ namespace Unity.AOP.Logging
         [Dependency]
         public IIndentSizeProvider Indent { get; set; }
 
+        public int IndentSize { get; set; }
+
+        public bool IncludesArguments { get; set; }
+
         public override IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
         {
             IMethodReturn result = null;
             Func<string, bool, string> logCall = (prefix, includeArguments) => Builder.Build(input, result, includeArguments);
             using (Hole.Of(Indent, i => i.Increase(), i => i.Decrease()))
-                using (Hole.Of(logCall, log => log(IndentString + "Begin ", Attribute.IncludesArguments), log => log(IndentString + "End ", Attribute.IncludesArguments)))
-                    return result = getNext()(input, getNext);
+            using (Hole.Of(logCall, log => log(IndentString + "Begin ", IncludesArguments), log => log(IndentString + "End ", false)))
+                return result = getNext()(input, getNext);
         }
     }
 }
