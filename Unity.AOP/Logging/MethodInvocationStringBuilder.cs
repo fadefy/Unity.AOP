@@ -23,12 +23,11 @@ namespace Unity.AOP.Logging
         public virtual string Build(IMethodInvocation invocation, IMethodReturn result, bool includesArguments)
         {
             var parameters = includesArguments ? _parameterMutator(invocation.Arguments.Cast<object>()) : new List<string>();
-            var returnString = _returnMutator(result.ReturnValue);
             var stringBuilder = new StringBuilder()
                 .Append(invocation.MethodBase.Name)
                 .AppendFormat("({0})", string.Join(", ", parameters));
-            if (!string.IsNullOrEmpty(returnString))
-                stringBuilder.Append(" return " + returnString);
+            if (result != null && result.ReturnValue != null)
+                stringBuilder.Append(" return " + _returnMutator(result.ReturnValue));
 
             return stringBuilder.ToString();
         }

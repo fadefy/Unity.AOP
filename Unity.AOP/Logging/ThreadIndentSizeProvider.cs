@@ -43,7 +43,7 @@ namespace Unity.AOP.Logging
             }
         }
 
-        protected readonly ThreadLocal<Indent> _indent = new ThreadLocal<Indent>();
+        protected readonly ThreadLocal<Indent> _indent = new ThreadLocal<Indent>(() => new Indent());
 
         public bool IsAtPole
         {

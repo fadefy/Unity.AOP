@@ -7,19 +7,35 @@ namespace Unity.AOP.Utilities
 {
     public static class MutationExtensions
     {
-        public static Func<IEnumerable<object>, IList<T>> GenerateMutator<T>(this IAggregatedMutator _mutators, Type[] parameterTypes, string scenario = null)
+        public static IAggregatedMutator RegistBasicMutators(this IAggregatedMutator mutators)
         {
-            var mutators = parameterTypes.Select(type => _mutators.GenerateMutator<T>(type, scenario)).ToList();
-
-            return values => values.Zip(mutators, (value, mutator) => (T)mutator.DynamicInvoke(value)).ToList();
+            mutators.SetMutator<char, string>(Convert.ToString);
+            mutators.SetMutator<byte, string>(Convert.ToString);
+            mutators.SetMutator<sbyte, string>(Convert.ToString);
+            mutators.SetMutator<short, string>(Convert.ToString);
+            mutators.SetMutator<int, string>(Convert.ToString);
+            mutators.SetMutator<uint, string>(Convert.ToString);
+            mutators.SetMutator<long, string>(Convert.ToString);
+            mutators.SetMutator<ulong, string>(Convert.ToString);
+            mutators.SetMutator<float, string>(Convert.ToString);
+            mutators.SetMutator<double, string>(Convert.ToString);
+            mutators.SetMutator<decimal, string>(Convert.ToString);
+            mutators.SetMutator<DateTime, string>(d => d.ToString("O"));
+            return mutators;
         }
 
-        public static Func<object, T> GenerateMutator<T>(this IAggregatedMutator _mutators, Type sourceType, string scenario = null)
+        public static Func<IEnumerable<object>, IList<T>> GenerateMutator<T>(this IAggregatedMutator aggregatedMutator, Type[] parameterTypes, string scenario = null)
         {
-            var mutator = typeof(T) == sourceType ? new Func<T, T>(i => i) :
-                          _mutators.GetMutator(sourceType, typeof(T), scenario);
+            var mutators = parameterTypes.Select(type => aggregatedMutator.GenerateMutator<T>(type, scenario)).ToList();
 
-            return value => (T)mutator.DynamicInvoke(value);
+            return values => values.Zip(mutators, (value, mutator) => mutator(value)).ToList();
+        }
+
+        public static Func<object, T> GenerateMutator<T>(this IAggregatedMutator aggregatedMutator, Type sourceType, string scenario = null)
+        {
+            var mutator = aggregatedMutator.GetMutator(sourceType, typeof(T), scenario);
+
+            return value => (T)mutator(value);
         }
     }
 }

@@ -130,6 +130,7 @@
   <ItemGroup>
     <Compile Include="AttributeDrivenCallHandlerBase.cs" />
     <Compile Include="Caching\CacheCallHandler.cs" />
+    <Compile Include="Caching\CacheKeyAttribute.cs" />
     <Compile Include="Caching\CacheResultAttribute.cs" />
     <Compile Include="Caching\IArgumentsCacheKeyGenerator.cs" />
     <Compile Include="Caching\ArgumentsStringCacheKeyGenerator.cs" />
@@ -150,13 +151,13 @@
     <Compile Include="Logging\ExcludeFromLogAttribute.cs" />
     <Compile Include="Logging\IIndentSizeProvider.cs" />
     <Compile Include="Logging\IInovcationStringBuilder.cs" />
+    <Compile Include="Logging\LoggingTextAttribute.cs" />
     <Compile Include="Logging\MethodInvocationStringBuilder.cs" />
     <Compile Include="Logging\LoggingInvocationAttribute.cs" />
     <Compile Include="Logging\LoggingCallHandler.cs" />
     <Compile Include="Logging\ThreadIndentSizeProvider.cs" />
     <Compile Include="Mutation\AggregatedMutator.cs" />
     <Compile Include="Mutation\IAggregatedMutator.cs" />
-    <Compile Include="Mutation\Mutate.cs" />
     <Compile Include="Mutation\MutatorKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Dispatchers\BackgroundThreadAsyncDispatcher.cs" />
