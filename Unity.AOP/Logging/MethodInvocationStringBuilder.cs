@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Practices.Unity.InterceptionExtension;
+using Unity.AOP.Utilities;
 
 namespace Unity.AOP.Logging
 {
@@ -13,16 +14,18 @@ namespace Unity.AOP.Logging
     {
         protected readonly Func<object, string> _returnMutator;
         protected readonly Func<IEnumerable<object>, IList<string>> _parameterMutator;
+        protected readonly IList<int> _excludedIndices;
 
-        public MethodInvocationStringBuilder(Func<IEnumerable<object>, IList<string>> parameterMutator, Func<object, string> returnMutator)
+        public MethodInvocationStringBuilder(IList<int> excludedIndices, Func<IEnumerable<object>, IList<string>> parameterMutator, Func<object, string> returnMutator)
         {
             _returnMutator = returnMutator;
             _parameterMutator = parameterMutator;
+            _excludedIndices = excludedIndices;
         }
 
         public virtual string Build(IMethodInvocation invocation, IMethodReturn result, bool includesArguments)
         {
-            var parameters = includesArguments ? _parameterMutator(invocation.Arguments.Cast<object>()) : new List<string>();
+            var parameters = includesArguments ? _parameterMutator(invocation.Arguments.Cast<object>().Exclude(_excludedIndices)) : new List<string>();
             var stringBuilder = new StringBuilder()
                 .Append(invocation.MethodBase.Name)
                 .AppendFormat("({0})", string.Join(", ", parameters));

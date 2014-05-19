@@ -173,6 +173,7 @@
     <Compile Include="Throttling\ThrottlingInvocationAttribute.cs" />
     <Compile Include="Unity.AOP.Module.cs" />
     <Compile Include="Unity\AOP\Mutation\TResult.cs" />
+    <Compile Include="Utilities\EnumerableExtensions.cs" />
     <Compile Include="Utilities\ExpressionExtensions.cs" />
     <Compile Include="Utilities\Hole.cs" />
     <Compile Include="Utilities\MutationExtensions.cs" />
