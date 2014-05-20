@@ -25,14 +25,13 @@ namespace Unity.AOP.Logging
 
         public virtual string Build(IMethodInvocation invocation, IMethodReturn result, bool includesArguments)
         {
+            var needAppendReturn = result != null && result.ReturnValue != null;
             var parameters = includesArguments ? _parameterMutator(invocation.Arguments.Cast<object>().Exclude(_excludedIndices)) : new List<string>();
-            var stringBuilder = new StringBuilder()
-                .Append(invocation.MethodBase.Name)
-                .AppendFormat("({0})", string.Join(", ", parameters));
-            if (result != null && result.ReturnValue != null)
-                stringBuilder.Append(" return " + _returnMutator(result.ReturnValue));
-
-            return stringBuilder.ToString();
+            return new StringBuilder()
+                   .Append(invocation.MethodBase.Name)
+                   .AppendFormat("({0})", string.Join(", ", parameters))
+                   .AppendIf(needAppendReturn, () => " return " + _returnMutator(result.ReturnValue))
+                   .ToString();
         }
     }
 }
