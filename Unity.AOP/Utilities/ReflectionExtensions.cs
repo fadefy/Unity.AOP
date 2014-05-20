@@ -7,7 +7,7 @@ namespace Unity.AOP.Utilities
 {
     public static class ReflectionExtensions
     {
-        public static object[] PeakArguments(this IParameterCollection parameters, Predicate<ParameterInfo> filter)
+        public static IEnumerable<object> PeakArguments(this IParameterCollection parameters, Predicate<ParameterInfo> filter)
         {
             var inputArguments = new List<object>();
             for (int i = 0; i < parameters.Count; i++)
@@ -18,8 +18,7 @@ namespace Unity.AOP.Utilities
                     inputArguments.Add(parameters[i]);
                 }
             }
-
-            return inputArguments.ToArray();
+            return inputArguments;
         }
     }
 }

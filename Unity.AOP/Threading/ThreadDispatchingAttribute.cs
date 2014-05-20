@@ -34,7 +34,12 @@ namespace Unity.AOP.Threading
             if (TargetThreadType == ThreadType.Background)
             {
                 if (Async)
-                    return new BackgroundThreadAsyncDispatcher() { Priority = Priority, Timeout = Timeout };
+                {
+                    if (IsSequenceCritical)
+                        return new BackgroundThreadQueuedDispatcher() { Priority = Priority, Timeout = Timeout };
+                    else
+                        return new BackgroundThreadAsyncDispatcher() { Priority = Priority, Timeout = Timeout };
+                }
                 else
                     return new BackgroundThreadDispatcher() { Priority = Priority, Timeout = Timeout };
             }

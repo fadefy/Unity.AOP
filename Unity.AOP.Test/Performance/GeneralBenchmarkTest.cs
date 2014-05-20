@@ -18,14 +18,14 @@ namespace Unity.AOP.Test.Performance
     {
         public class API
         {
-            [CacheResult]
-            [HandleException]
-            [DetectHanging]
-            [LoggingInvocation]
-            [ThreadDispatching(TargetThreadType = ThreadType.Current)]
-            public virtual string GetValue(string key)
+            [CacheResult(Order = 5)]
+            [HandleException(Order = 4)]
+            [DetectHanging(Order = 3)]
+            [LoggingInvocation(Order = 2)]
+            [ThreadDispatching(Order = 1, TargetThreadType = ThreadType.Current)]
+            public virtual string GetValue([ExcludeFromLog]string key)
             {
-                return new Dictionary<string, string>() { { "", "" } } [key];
+                return new Dictionary<string, string>() { { "", "Value" } } [key];
             }
         }
 
@@ -41,11 +41,11 @@ namespace Unity.AOP.Test.Performance
         [TestMethod]
         public void FullCallHandlerPenaltyTest()
         {
-            var invocationTimes = 100000;
+            var invocationTimes = 10000;
             var api = Container.Resolve<API>();
             api.GetValue(String.Empty);
 
-            var stopwatch = Stopwatch.StartNew();            
+            var stopwatch = Stopwatch.StartNew();
             for (var i =0; i < invocationTimes; i++)
             {
                 api.GetValue(string.Empty);

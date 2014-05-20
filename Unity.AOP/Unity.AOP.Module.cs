@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.Practices.Prism.Modularity;
+﻿using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.ServiceLocation;
 using Microsoft.Practices.Unity;
+using Microsoft.Practices.Unity.InterceptionExtension;
 using Unity.AOP.Caching;
 using Unity.AOP.ExcptionHandling;
 using Unity.AOP.HangingDetection;
@@ -25,7 +25,9 @@ namespace Unity.AOP
                 container.RegisterType<IAggregatedMutator, AggregatedMutator>(new ContainerControlledLifetimeManager(),
                     new InjectionFactory(c => new AggregatedMutator().RegistBasicMutators()));
                 container.RegisterType<DetectHangingCallHandler>(new PerResolveLifetimeManager());
-                container.RegisterType<LoggingCallHandler>(new PerResolveLifetimeManager());
+                container.RegisterType<LoggingCallHandler>(new PerResolveLifetimeManager(),
+                    new Interceptor<VirtualMethodInterceptor>(),
+                    new InterceptionBehavior<PolicyInjectionBehavior>());
                 container.RegisterType<ExceptionCallHandler>(new PerResolveLifetimeManager());
                 container.RegisterType<CacheCallHandler>(new PerResolveLifetimeManager());
             }

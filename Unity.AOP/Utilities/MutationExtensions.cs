@@ -24,11 +24,11 @@ namespace Unity.AOP.Utilities
             return mutators;
         }
 
-        public static Func<IEnumerable<object>, IList<T>> GenerateMutator<T>(this IAggregatedMutator aggregatedMutator, Type[] parameterTypes, string scenario = null)
+        public static Func<IEnumerable<object>, IEnumerable<T>> GenerateMutator<T>(this IAggregatedMutator aggregatedMutator, Type[] parameterTypes, string scenario = null)
         {
             var mutators = parameterTypes.Select(type => aggregatedMutator.GenerateMutator<T>(type, scenario)).ToList();
 
-            return values => values.Zip(mutators, (value, mutator) => mutator(value)).ToList();
+            return values => values.Zip(mutators, (value, mutator) => mutator(value));
         }
 
         public static Func<object, T> GenerateMutator<T>(this IAggregatedMutator aggregatedMutator, Type sourceType, string scenario = null)

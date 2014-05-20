@@ -13,10 +13,10 @@ namespace Unity.AOP.Logging
     public class MethodInvocationStringBuilder : IInovcationStringBuilder
     {
         protected readonly Func<object, string> _returnMutator;
-        protected readonly Func<IEnumerable<object>, IList<string>> _parameterMutator;
+        protected readonly Func<IEnumerable<object>, IEnumerable<string>> _parameterMutator;
         protected readonly IList<int> _excludedIndices;
 
-        public MethodInvocationStringBuilder(IList<int> excludedIndices, Func<IEnumerable<object>, IList<string>> parameterMutator, Func<object, string> returnMutator)
+        public MethodInvocationStringBuilder(IList<int> excludedIndices, Func<IEnumerable<object>, IEnumerable<string>> parameterMutator, Func<object, string> returnMutator)
         {
             _returnMutator = returnMutator;
             _parameterMutator = parameterMutator;

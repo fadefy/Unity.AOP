@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Practices.Unity.InterceptionExtension;
+using Unity.AOP.Threading;
 using Unity.AOP.Utilities;
 
 namespace Unity.AOP.Logging
@@ -28,10 +29,16 @@ namespace Unity.AOP.Logging
         public override IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
         {
             IMethodReturn result = null;
-            Func<string, bool, string> logCall = (prefix, includeArguments) => Builder.Build(input, result, includeArguments);
+            Action<string, bool> logCall = (prefix, includeArguments) => LogInfoAsync(Builder.Build(input, result, includeArguments));
             using (Hole.Of(_provider, i => i.Increase(), i => i.Decrease()))
             using (Hole.Of(logCall, log => log(IndentString + "Begin ", IncludesArguments), log => log(IndentString + "End ", false)))
                 return result = getNext()(input, getNext);
+        }
+
+        [ThreadDispatching(TargetThreadType = ThreadType.Background, Async = true, IsSequenceCritical = true)]
+        protected virtual void LogInfoAsync(string message)
+        {
+            Info(message);
         }
     }
 }

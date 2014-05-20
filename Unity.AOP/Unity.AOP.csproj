@@ -162,6 +162,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Dispatchers\BackgroundThreadAsyncDispatcher.cs" />
     <Compile Include="Threading\Dispatchers\BackgroundThreadDispatcher.cs" />
+    <Compile Include="Threading\Dispatchers\BackgroundThreadQueuedDispatcher.cs" />
     <Compile Include="Threading\Dispatchers\CurrentThreadDispatcher.cs" />
     <Compile Include="Threading\Dispatchers\UIThreadAsyncDispatcher.cs" />
     <Compile Include="Threading\Dispatchers\UIThreadDispatcher.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Unity.AOP.Module.cs" />
     <Compile Include="Utilities\EnumerableExtensions.cs" />
     <Compile Include="Utilities\ExpressionExtensions.cs" />
+    <Compile Include="Utilities\GenericExtensions.cs" />
     <Compile Include="Utilities\Hole.cs" />
     <Compile Include="Utilities\MutationExtensions.cs" />
     <Compile Include="Utilities\ReactiveExtensions.cs" />
