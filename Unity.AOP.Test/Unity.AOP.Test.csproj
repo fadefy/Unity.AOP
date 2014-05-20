@@ -98,6 +98,7 @@
     <Compile Include="CallHandlers\ExceptionCallHandlerTest.cs" />
     <Compile Include="CallHandlers\LoggingCallHandlerTest.cs" />
     <Compile Include="Framework\TestBase.cs" />
+    <Compile Include="Performance\GeneralBenchmarkTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CallHandlers\CacheCallHandlerTest.cs" />
     <Compile Include="Unity\LifetimeManagerTest.cs" />
@@ -113,6 +114,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
