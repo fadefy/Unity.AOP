@@ -20,7 +20,7 @@ namespace Unity.AOP.Test.Performance
         {
             [CacheResult(Order = 5)]
             [HandleException(Order = 4)]
-            [DetectHanging(Order = 3)]
+            //[DetectHanging(Order = 3)]
             [LoggingInvocation(Order = 2)]
             [ThreadDispatching(Order = 1, TargetThreadType = ThreadType.Current)]
             public virtual string GetValue([ExcludeFromLog]string key)
@@ -41,7 +41,7 @@ namespace Unity.AOP.Test.Performance
         [TestMethod]
         public void FullCallHandlerPenaltyTest()
         {
-            var invocationTimes = 10000;
+            var invocationTimes = 100000;
             var api = Container.Resolve<API>();
             api.GetValue(String.Empty);
 

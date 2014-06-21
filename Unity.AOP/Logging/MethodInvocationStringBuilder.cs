@@ -26,7 +26,7 @@ namespace Unity.AOP.Logging
         public virtual string Build(IMethodInvocation invocation, IMethodReturn result, bool includesArguments)
         {
             var needAppendReturn = result != null && result.ReturnValue != null;
-            var parameters = includesArguments ? _parameterMutator(invocation.Arguments.Cast<object>().Exclude(_excludedIndices)) : new List<string>();
+            var parameters = includesArguments ? _parameterMutator(invocation.Arguments.Cast<object>().ToList().ExceptIndices(_excludedIndices)) : new List<string>();
             return new StringBuilder()
                    .Append(invocation.MethodBase.Name)
                    .AppendFormat("({0})", string.Join(", ", parameters))

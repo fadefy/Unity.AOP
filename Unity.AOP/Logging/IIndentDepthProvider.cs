@@ -1,6 +1,6 @@
 ﻿namespace Unity.AOP.Logging
 {
-    public interface IIndentSizeProvider
+    public interface IIndentDepthProvider
     {
         int GetDepth();
 

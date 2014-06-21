@@ -2,7 +2,7 @@
 
 namespace Unity.AOP.Logging
 {
-    public class ThreadIndentSizeProvider : IIndentSizeProvider
+    public class ThreadIndentSizeProvider : IIndentDepthProvider
     {
         protected class Indent
         {

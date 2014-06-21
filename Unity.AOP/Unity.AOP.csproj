@@ -149,7 +149,7 @@
     <Compile Include="HangingDetection\IHangingMonitor.cs" />
     <Compile Include="HangingDetection\InvocationHangEventArgs.cs" />
     <Compile Include="Logging\ExcludeFromLogAttribute.cs" />
-    <Compile Include="Logging\IIndentSizeProvider.cs" />
+    <Compile Include="Logging\IIndentDepthProvider.cs" />
     <Compile Include="Logging\IInovcationStringBuilder.cs" />
     <Compile Include="Logging\LoggingTextAttribute.cs" />
     <Compile Include="Logging\MethodInvocationStringBuilder.cs" />
@@ -173,10 +173,12 @@
     <Compile Include="Throttling\ThrottlingCallHandler.cs" />
     <Compile Include="Throttling\ThrottlingInvocationAttribute.cs" />
     <Compile Include="Unity.AOP.Module.cs" />
+    <Compile Include="Utilities\DelegationExtentions.cs" />
     <Compile Include="Utilities\EnumerableExtensions.cs" />
     <Compile Include="Utilities\ExpressionExtensions.cs" />
     <Compile Include="Utilities\GenericExtensions.cs" />
     <Compile Include="Utilities\Hole.cs" />
+    <Compile Include="Utilities\LoggerFacadeExtensions.cs" />
     <Compile Include="Utilities\MutationExtensions.cs" />
     <Compile Include="Utilities\ReactiveExtensions.cs" />
     <Compile Include="Utilities\ReflectionExtensions.cs" />
@@ -187,6 +189,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Unity.Func\Unity.Func.fsproj">
+      <Project>{5585575e-0b1d-4ca3-bb6f-53f909022fc7}</Project>
+      <Name>Unity.Func</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

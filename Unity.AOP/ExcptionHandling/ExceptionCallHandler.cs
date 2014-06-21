@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Practices.Unity.InterceptionExtension;
+using Unity.AOP.Utilities;
 
 namespace Unity.AOP.ExcptionHandling
 {
@@ -14,7 +15,7 @@ namespace Unity.AOP.ExcptionHandling
             var methodReturn = nextCallHandler(input, getNext);
             if (methodReturn.Exception != null)
             {
-                Error("{0} throw exception {1}", input.MethodBase, methodReturn.Exception);
+                Logger.Error("{0} throw exception {1}", input.MethodBase, methodReturn.Exception);
                 var methodInfo = input.MethodBase as MethodInfo;
                 return input.CreateMethodReturn(GetFallBackValue(methodInfo.ReturnType), BuildFallbackArguments(input));
             }

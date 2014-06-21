@@ -20,13 +20,11 @@ namespace Unity.AOP.Logging
 
         public override ICallHandler CreateHandler(IUnityContainer container, MethodImplementationInfo member)
         {
-            var loggingCallHandler = CreateCallHandler(container);
-            loggingCallHandler.Order = Order;
-            loggingCallHandler.IncludesArguments = IncludesArguments;
-            loggingCallHandler.IndentSize = IndentSize;
-            loggingCallHandler.Builder = CreateStringBuilder(member.ImplementationMethodInfo, container);
-
-            return loggingCallHandler;
+            return container.Resolve<LoggingCallHandler>(
+                new LambdaPropertyOverride<LoggingCallHandler>(h => h.Builder, CreateStringBuilder(member.ImplementationMethodInfo, container)),
+                new LambdaPropertyOverride<LoggingCallHandler>(h => h.IncludesArguments, IncludesArguments),
+                new LambdaPropertyOverride<LoggingCallHandler>(h => h.IndentSize, IndentSize),
+                new LambdaPropertyOverride<LoggingCallHandler>(h => h.Order, Order));
         }
 
         protected virtual IInovcationStringBuilder CreateStringBuilder(MethodInfo methodInfo, IUnityContainer container)
@@ -36,16 +34,11 @@ namespace Unity.AOP.Logging
             var ignoredArgumentIndexes = (from argumentWithIndex in arguments.Select((p, i) => new { Parameter = p, Index = i })
                                           where argumentWithIndex.Parameter.GetCustomAttributes<ExcludeFromLogAttribute>().Any()
                                           select argumentWithIndex.Index).ToList();
-            var argumentTypes = arguments.Exclude(ignoredArgumentIndexes).Select(p => p.ParameterType).ToArray();
+            var argumentTypes = arguments.ExceptIndices(ignoredArgumentIndexes).Select(p => p.ParameterType).ToArray();
             var argumentsMutator = mutator.GenerateMutator<string>(argumentTypes, MutationScenario);
             var returnMutator = mutator.GenerateMutator<string>(methodInfo.ReturnType, MutationScenario);
 
             return new MethodInvocationStringBuilder(ignoredArgumentIndexes, argumentsMutator, returnMutator);
-        }
-
-        protected virtual LoggingCallHandler CreateCallHandler(IUnityContainer container)
-        {
-            return container.Resolve<LoggingCallHandler>();
         }
 
         protected virtual IAggregatedMutator GetMutator(IUnityContainer container)

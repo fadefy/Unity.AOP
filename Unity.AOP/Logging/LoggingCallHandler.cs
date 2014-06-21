@@ -8,9 +8,9 @@ namespace Unity.AOP.Logging
     public class LoggingCallHandler : CallHandlerBase
     {
         private string _indent = null;
-        private readonly IIndentSizeProvider _provider;
+        private readonly IIndentDepthProvider _provider;
 
-        public LoggingCallHandler(IIndentSizeProvider provider)
+        public LoggingCallHandler(IIndentDepthProvider provider)
         {
             _provider = provider;
         }
@@ -30,15 +30,15 @@ namespace Unity.AOP.Logging
         {
             IMethodReturn result = null;
             Action<string, bool> logCall = (prefix, includeArguments) => LogInfoAsync(Builder.Build(input, result, includeArguments));
-            using (Hole.Of(_provider, i => i.Increase(), i => i.Decrease()))
-            using (Hole.Of(logCall, log => log(IndentString + "Begin ", IncludesArguments), log => log(IndentString + "End ", false)))
+            using (Hole.OfTry(() => _provider, i => i.Increase(), i => i.Decrease()))
+            using (Hole.OfTryFinal(() => logCall, log => log(IndentString + "Begin ", IncludesArguments), log => log(IndentString + "End ", false)))
                 return result = getNext()(input, getNext);
         }
 
         [ThreadDispatching(TargetThreadType = ThreadType.Background, Async = true, IsSequenceCritical = true)]
         protected virtual void LogInfoAsync(string message)
         {
-            Info(message);
+            Logger.Info(message);
         }
     }
 }

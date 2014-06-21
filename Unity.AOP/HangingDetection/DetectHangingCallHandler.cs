@@ -25,7 +25,7 @@ namespace Unity.AOP.HangingDetection
 
         public override IMethodReturn Invoke(IMethodInvocation input, GetNextHandlerDelegate getNext)
         {
-            using (Hole.Of(CreateRecord(input), HangingMonitor.BeginMonitor, HangingMonitor.EndMonitor))
+            using (Hole.OfTry(() => CreateRecord(input), HangingMonitor.BeginMonitor, HangingMonitor.EndMonitor))
                 return getNext()(input, getNext);
         }
 

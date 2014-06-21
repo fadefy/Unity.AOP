@@ -19,7 +19,7 @@ namespace Unity.AOP
             if (container != null)
             {
                 container.RegisterType<IInovcationStringBuilder, MethodInvocationStringBuilder>(new ContainerControlledLifetimeManager());
-                container.RegisterType<IIndentSizeProvider, ThreadIndentSizeProvider>(new ContainerControlledLifetimeManager());
+                container.RegisterType<IIndentDepthProvider, ThreadIndentSizeProvider>(new ContainerControlledLifetimeManager());
                 container.RegisterType<IHangingMonitor, ConcurrentHangingMonitor>(new ContainerControlledLifetimeManager());
                 container.RegisterType<IArgumentsCacheKeyGenerator, ArgumentsStringCacheKeyGenerator>(new ContainerControlledLifetimeManager());
                 container.RegisterType<IAggregatedMutator, AggregatedMutator>(new ContainerControlledLifetimeManager(),
