@@ -137,6 +137,7 @@
     <Compile Include="CallHandlerBase.cs" />
     <Compile Include="ExcptionHandling\ExceptionCallHandler.cs" />
     <Compile Include="ExcptionHandling\HandleExceptionAttribute.cs" />
+    <Compile Include="Framework\KeyBasedLifetimeManager.cs" />
     <Compile Include="Framework\LambdaPropertyOverride.cs" />
     <Compile Include="Framework\PerMethodAttributeDrivenPolicy.cs" />
     <Compile Include="Framework\PerMethodHandlerAttribute.cs" />

@@ -8,7 +8,13 @@ namespace Unity.AOP.Threading.Dispatchers
 {
     public class UIThreadDispatcher : IInvocationDispatcher
     {
-        public TimeSpan Timeout { get; set; } = TimeSpan.MaxValue;
+        private TimeSpan _timeout = TimeSpan.MaxValue;
+
+        public TimeSpan Timeout
+        {
+            get { return _timeout; }
+            set { _timeout = value; }
+        }
 
         public DispatcherPriority Priority { get; set; }
 

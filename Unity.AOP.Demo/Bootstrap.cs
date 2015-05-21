@@ -18,7 +18,6 @@ namespace Unity.AOP.Demo
 
         protected override void ConfigureContainer()
         {
-            Container.LoadConfiguration();
             base.ConfigureContainer();
         }
 

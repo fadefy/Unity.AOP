@@ -11,7 +11,13 @@ namespace Unity.AOP.Caching
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false)]
     public class CacheResultAttribute : PerMethodHandlerAttribute
     {
-        public static string MutationScenario { get; set; } = "Cache";
+        private static string _scenario = "Cache";
+
+        public static string MutationScenario
+        {
+            get { return _scenario; }
+            set { _scenario = value; }
+        }
 
         public override ICallHandler CreateHandler(IUnityContainer container, MethodImplementationInfo member)
         {

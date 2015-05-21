@@ -12,11 +12,17 @@ namespace Unity.AOP.Logging
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property)]
     public class LoggingInvocationAttribute : PerMethodHandlerAttribute
     {
+        private static string _scenario = "Logging";
+
         public int IndentSize { get; set; }
 
         public bool IncludesArguments { get; set; }
 
-        public static string MutationScenario { get; set; } = "Logging";
+        public static string MutationScenario
+        {
+            get { return _scenario; }
+            set { _scenario = value; }
+        }
 
         public override ICallHandler CreateHandler(IUnityContainer container, MethodImplementationInfo member)
         {
