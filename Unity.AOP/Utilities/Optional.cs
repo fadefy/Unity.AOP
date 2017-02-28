@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Unity.AOP.Utilities
 {
-    public struct Optional<T>
+    public class Optional<T>
     {
         public Optional()
         {

@@ -13,8 +13,13 @@ namespace Unity.AOP.Logging
     public class LoggingInvocationAttribute : PerMethodHandlerAttribute
     {
         private static string _scenario = "Logging";
+        private int _indentSize = 4;
 
-        public int IndentSize { get; set; }
+        public int IndentSize
+        {
+            get { return _indentSize; }
+            set { _indentSize = value; }
+        }
 
         public bool IncludesArguments { get; set; }
 
@@ -35,21 +40,21 @@ namespace Unity.AOP.Logging
 
         protected virtual IInovcationStringBuilder CreateStringBuilder(MethodInfo methodInfo, IUnityContainer container)
         {
-            var mutator = GetMutator(container);
+            var mutator = GetConverter(container);
             var arguments = methodInfo.GetParameters();
             var ignoredArgumentIndexes = (from argumentWithIndex in arguments.Select((p, i) => new { Parameter = p, Index = i })
                                           where argumentWithIndex.Parameter.GetCustomAttributes<ExcludeFromLogAttribute>().Any()
                                           select argumentWithIndex.Index).ToList();
             var argumentTypes = arguments.ExceptIndices(ignoredArgumentIndexes).Select(p => p.ParameterType).ToArray();
-            var argumentsMutator = mutator.GenerateMutator<string>(argumentTypes, MutationScenario);
-            var returnMutator = mutator.GenerateMutator<string>(methodInfo.ReturnType, MutationScenario);
+            var argumentsMutator = mutator.Generate<string>(argumentTypes, MutationScenario);
+            var returnMutator = mutator.Generate<string>(methodInfo.ReturnType, MutationScenario);
 
             return new MethodInvocationStringBuilder(ignoredArgumentIndexes, argumentsMutator, returnMutator);
         }
 
-        protected virtual IAggregatedMutator GetMutator(IUnityContainer container)
+        protected virtual IScenarioConverter GetConverter(IUnityContainer container)
         {
-            return container.Resolve<IAggregatedMutator>();
+            return container.Resolve<IScenarioConverter>();
         }
     }
 }

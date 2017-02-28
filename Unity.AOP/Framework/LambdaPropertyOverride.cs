@@ -1,6 +1,6 @@
-﻿using Microsoft.Practices.Unity;
-using System;
+﻿using System;
 using System.Linq.Expressions;
+using Microsoft.Practices.Unity;
 using Unity.AOP.Utilities;
 
 namespace Unity.AOP.Framework

@@ -11,11 +11,11 @@ namespace Unity.AOP.Test.Utilities
     public class ReactiveExtensionsTest
     {
         [TestMethod]
-        public async void ReportWithIntervalTest()
+        public void ReportWithIntervalTest()
         {
             Action f = () => { Trace.WriteLine("Begin " + DateTime.Now.ToString("O")); Thread.Sleep(100); };
 
-            var u = await f.ToAsync().RepeatWithInterval(TimeSpan.FromMilliseconds(200));
+            var u = f.ToAsync().RepeatWithInterval(TimeSpan.FromMilliseconds(200));
             Trace.WriteLine("Done " + DateTime.Now.ToString("O"));
         }
     }

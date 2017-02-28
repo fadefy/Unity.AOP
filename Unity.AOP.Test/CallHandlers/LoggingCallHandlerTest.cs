@@ -70,8 +70,8 @@ namespace Unity.AOP.Test.CallHandlers
                 new Interceptor<VirtualMethodInterceptor>(),
                 new InterceptionBehavior<PolicyInjectionBehavior>());
 
-            var mutators = Container.Resolve<IAggregatedMutator>();
-            mutators.SetMutator<ComplexType, string>(v => v.Name);
+            var mutators = Container.Resolve<IScenarioConverter>();
+            mutators.Set<ComplexType, string>(v => v.Name);
         }
 
         [TestMethod]

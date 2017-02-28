@@ -22,8 +22,8 @@ namespace Unity.AOP
                 container.RegisterType<IIndentDepthProvider, ThreadIndentSizeProvider>(new ContainerControlledLifetimeManager());
                 container.RegisterType<IHangingMonitor, ConcurrentHangingMonitor>(new ContainerControlledLifetimeManager());
                 container.RegisterType<IArgumentsCacheKeyGenerator, ArgumentsStringCacheKeyGenerator>(new ContainerControlledLifetimeManager());
-                container.RegisterType<IAggregatedMutator, AggregatedMutator>(new ContainerControlledLifetimeManager(),
-                    new InjectionFactory(c => new AggregatedMutator().RegistBasicMutators()));
+                container.RegisterType<IScenarioConverter, ScenarioConverter>(new ContainerControlledLifetimeManager(),
+                    new InjectionFactory(c => new ScenarioConverter().RegistBasicConverters()));
                 container.RegisterType<DetectHangingCallHandler>(new PerResolveLifetimeManager());
                 container.RegisterType<LoggingCallHandler>(new PerResolveLifetimeManager(),
                     new Interceptor<VirtualMethodInterceptor>(),

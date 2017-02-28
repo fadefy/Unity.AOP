@@ -7,17 +7,17 @@ namespace Unity.AOP.Caching
 {
     public class ArgumentsStringCacheKeyGenerator : IArgumentsCacheKeyGenerator
     {
-        private readonly Func<IEnumerable<object>, IEnumerable<string>> _argumentMutator;
+        private readonly Func<IEnumerable<object>, IEnumerable<string>> _convert;
 
-        public ArgumentsStringCacheKeyGenerator(Func<IEnumerable<object>, IEnumerable<string>> argumentsMutator)
+        public ArgumentsStringCacheKeyGenerator(Func<IEnumerable<object>, IEnumerable<string>> argumentsConverter)
         {
-            _argumentMutator = argumentsMutator;
+            _convert = argumentsConverter;
         }
 
         [Pure]
         public object GenerateKey(MethodBase method, IEnumerable<object> arguments)
         {
-            return string.Join(string.Empty, _argumentMutator(arguments));
+            return string.Join(string.Empty, _convert(arguments));
         }
     }
 }

@@ -29,9 +29,9 @@ namespace Unity.AOP.Caching
 
         protected virtual IArgumentsCacheKeyGenerator GetKeyGenerator(IUnityContainer container, MethodImplementationInfo member)
         {
-            var mutators = container.Resolve<IAggregatedMutator>();
+            var mutators = container.Resolve<IScenarioConverter>();
             var argumentsTypes = member.ImplementationMethodInfo.GetParameters().Select(p => p.ParameterType).Where(t => !t.IsByRef).ToArray();
-            var argumentsMutator = mutators.GenerateMutator<string>(argumentsTypes, MutationScenario);
+            var argumentsMutator = mutators.Generate<string>(argumentsTypes, MutationScenario);
 
             return new ArgumentsStringCacheKeyGenerator(argumentsMutator);
         }

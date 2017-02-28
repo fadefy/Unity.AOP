@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
+using Unity.AOP.Framework;
 
 namespace Unity.AOP
 {
@@ -20,9 +21,9 @@ namespace Unity.AOP
 
         protected virtual ResolverOverride[] GetHandlerConstructionOverride()
         {
-            return new []
+            return new[]
             {
-                new PropertyOverride("Order", Order),
+                new LambdaPropertyOverride(() => Order, Order),
                 new PropertyOverride("Attribute", this)
             };
         }
